@@ -178,12 +178,12 @@ namespace Simulator.GUI
                 {
                     if (_userAnswers[i].GetType().IsArray)
                     {
-                        if (((char[]) _userAnswers[i]).SequenceEqual(_settings.Questions[i].Answers))
+                        if (_settings.Questions[i].CheckAnswer((char[])_userAnswers[i]))
                         {
                             numOfCorrectAnswers++;
                         }
                     }
-                    else if ((char) _userAnswers[i] == _settings.Questions[i].Answer)
+                    else if (_settings.Questions[i].CheckAnswer((char)_userAnswers[i]))
                     {
                         numOfCorrectAnswers++;
                     }

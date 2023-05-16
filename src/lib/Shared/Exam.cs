@@ -106,14 +106,26 @@ namespace Shared
         }
     }
 
-    [Serializable]
-    public class Question
+    public abstract class QuestionBase
     {
         public int No { get; set; }
 
         public string Text { get; set; }
 
         public Bitmap Image { get; set; }
+        public virtual bool CheckAnswer(object answer)
+        {
+            return false;
+        }
+
+    }
+
+
+
+    [Serializable]
+    public class Question : QuestionBase
+    {
+       
 
         public char Answer { get; set; }
 
@@ -124,6 +136,24 @@ namespace Shared
         public List<Option> Options { get; set; }
 
         public string Explanation { get; set; }
+
+        public override bool CheckAnswer(object answer)
+        {
+            if (answer is char)
+            {
+                var ans = (char) answer;
+                return ans == Answer;
+            }
+            else if (answer is char[])
+            {
+                var ans = (char[]) answer;
+                return ans.SequenceEqual(Answers);
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public Question()
         {
